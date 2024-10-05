@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <a href="/"><- Back</a>
+    <h1><%= title %></h1>
+    <p>Khá giống với <a href="/algorithms/push-pull">Push Algorithm</a></p>
+    <p>Ứng dụng phần mềm: <b>DOTA 2</b>, <b>IPHONE 14</b></p>
+    <p>Ứng dụng cuộc sống: <b>Giao thông</b>, <b>Pre Order</b></p>
+    <pre>
+        <code>
+    class Observer {
+      constructor(name) {
+        this.name = name;
+      }
+
+      updateStatus(location) {
+        this.sendLocation(location);
+      }
+
+      sendLocation(location) {
+        console.log(`:::Send Location to ${this.name}::: ${JSON.stringify(location)}`);
+      }
+    }
+
+
+    class Subject {
+      constructor() {
+        this.observerList = [];
+      }
+
+      addObserver(observer) {
+        this.observerList.push(observer);
+      }
+
+      notify(location) {
+        this.observerList.forEach((observer) => observer.sendLocation(location));
+      }
+    }
+
+
+    const subject = new Subject();
+
+    const steve = new Observer("Steve");
+    const alex = new Observer("Alex");
+
+    subject.addObserver(steve);
+    subject.addObserver(alex);
+
+    subject.notify({ x: 130, y: 150, z: 64 });
+        </code>
+    </pre>
+    <button
+      onclick="document.getElementById('value').innerHTML = getValue()"
+    >
+      Run me
+    </button>
+    <div id="value"></div>
+    <script>
+      class Observer {
+        constructor(name) {
+          this.name = name;
+        }
+
+        updateStatus(location) {
+          this.sendLocation(location);
+        }
+
+        sendLocation(location) {
+          console.log(
+            `:::Send Location to ${this.name}::: ${JSON.stringify(
+              location
+            )}`
+          );
+        }
+      }
+
+      class Subject {
+        constructor() {
+          // Tu them vao
+          this.messages = [];
+
+          // Chinh
+          this.observerList = [];
+        }
+
+        addObserver(observer) {
+          this.observerList.push(observer);
+        }
+
+        notify(location) {
+          this.observerList.forEach((observer) => {
+            // Tu them vao
+            this.messages.push(
+              `:::Send Location to ${observer.name}::: ${JSON.stringify(
+                location
+              )}`
+            );
+
+            // Chinh
+            observer.sendLocation(location);
+          });
+        }
+      }
+
+      const subject = new Subject();
+
+      const steve = new Observer("Steve");
+      const alex = new Observer("Alex");
+
+      subject.addObserver(steve);
+      subject.addObserver(alex);
+
+      subject.notify({ x: 130, y: 150, z: 64 });
+
+      function getValue() {
+        let html = "";
+        subject.messages.forEach(
+          (m) => (html += `<pre><code>${m}</code></pre>`)
+        );
+        return html;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <a href="/"><- Back</a>
+    <h1><%= title %></h1>
+    <ul style="list-style-type: decimal">
+      <li>
+        <h3>Pull</h3>
+        <img width="100%" src="/images/pull.jpg" alt="pull" />
+
+        <h4>Hoạt động:</h4>
+        <p>- Messi mở điện thoại đi vào kho news feed của messi</p>
+        <p>
+          - Messi gửi request đến Ronaldo và được trả về 3 new feeds, 2
+          người còn lại tương tự
+        </p>
+        <p>
+          => Danh sách có bao nhiêu người, follow bao nhiêu người, sẽ phải
+          gửi tất cả các request để tổng hợp lại các new feeds của người ta
+          trong thời gian chưa đọc
+        </p>
+
+        <h4>Nhược điểm:</h4>
+        <p>
+          - Nếu N users thì kéo N requests (phải có thuật toán riêng để
+          giảm N)
+        </p>
+        <p>- Thời gian render chờ đợi để render ra news feed thì lâu</p>
+
+        <h4>Ưu điểm:</h4>
+        <p>- Khi Cr7 post 1 status thì chỉ cần save vào DB của Cr7</p>
+      </li>
+      <li>
+        <h3>Push</h3>
+        <img width="100%" src="/images/push.jpg" alt="push" />
+
+        <h4>Hoạt động:</h4>
+        <p>
+          - Khi Messi đăng nhập vào có sẵn 9 news feed trong db của Messi
+        </p>
+        <p>
+          - Tại vì khi Cr7 tạo 3 status, biết ai follow và bắn về người đó
+          luôn lưu tại db của Messi
+        </p>
+        <p>=> Messi trải nghiệm người dùng sẽ nhanh hơn</p>
+
+        <h4>Nhược điểm:</h4>
+        <p>
+          - Tỷ lệ ghi cao (lãng phí db), ví dụ CR7 có 1 triệu người
+          followers thì 1 triệu bản ghi
+        </p>
+        <p>
+          - Tốc độ nhận tin của người followers có thể chậm hơn người khác,
+          Ví dụ: Cr7 đăng 1 status lên, thì maybe 5 ngàn người đầu tiên sẽ
+          nhận được trước => Cái này áp dụng thủ thuật, phân tích người
+          dùng có onl nhiều hay ko? Nếu onl nhiều thì sẽ xếp trước
+        </p>
+
+        <h4>Ưu điểm:</h4>
+        <p>
+          - Chỉ cần truy cập vào danh sách news feed của mình là có data -
+          Nhanh gọn lẹ
+        </p>
+
+        <h4>Liên kết:</h4>
+        <p>
+          Khá giống với <a href="/patterns/observer">Observer Pattern</a>
+        </p>
+      </li>
+    </ul>
+  </body>
+</html>
