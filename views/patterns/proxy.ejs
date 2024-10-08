@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <a href="/"><- Back</a>
+    <h1><%= title %></h1>
+    <p>
+      - Điều khiển gián tiếp việc truy xuất đối tượng thông qua một đối
+      tượng được ủy nhiệm
+    </p>
+    <p>- Giải quyết vấn đề security, perfomance, validation,...</p>
+    <p>
+      - Cung cấp 1 class đại diện để quản lí sự truy xuất đến thành phần
+      của 1 class khác
+    </p>
+    <img width="100%" src="/images/proxy.png" alt="proxy" />
+
+    <h3>Kiến trúc:</h3>
+    <img width="100%" src="/images/proxy-architect.webp" alt="proxy" />
+    <pre>
+      <code>
+      class Leader {
+        receiveRequest(req) {
+          console.log(`:::Receive Request::: ${req}`);
+        }
+      }
+
+
+      class Secretary {
+        #leader = new Leader();
+
+        receiveRequest(req) {
+          this.#leader.receiveRequest(req);
+        }
+      }
+
+
+      class Developer {
+        constructor(offer) {
+          this.offer = offer;
+        }
+
+        // Send request To ?
+        sendRequest(target) {
+          target.receiveRequest(this.offer);
+        }
+      }
+
+
+      const dev = new Developer("Up to 5k USD");
+      dev.sendRequest(new Secretary());
+      </code>
+    </pre>
+
+    <button
+      onclick="document.getElementById('value').innerHTML=`<pre><code>${':::Receive Request::: Up to 5k USD'}</code></pre>`"
+    >
+      Run me
+    </button>
+    <div id="value"></div>
+
+    <script>
+      class Leader {
+        receiveRequest(req) {
+          console.log(`:::Request::: ${req}`);
+        }
+      }
+
+      class Secretary {
+        #leader = new Leader();
+
+        receiveRequest(req) {
+          this.#leader.receiveRequest(req);
+        }
+      }
+
+      class Developer {
+        constructor(offer) {
+          this.offer = offer;
+        }
+
+        // Send request To ?
+        sendRequest(target) {
+          target.receiveRequest(this.offer);
+        }
+      }
+
+      const dev = new Developer("Up to 5k USD");
+      dev.sendRequest(new Secretary());
+    </script>
+  </body>
+</html>

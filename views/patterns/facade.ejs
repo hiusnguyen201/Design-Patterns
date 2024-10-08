@@ -12,5 +12,104 @@
   <body>
     <a href="/"><- Back</a>
     <h1><%= title %></h1>
+    <p>
+      - Cung cấp cho chúng ta một giao diện chung đơn giản thay cho một
+      nhóm các giao diện có trong một hệ thống con (subsystem).
+    </p>
+    <p>
+      - Mục tiêu là che giấu các hoạt động phức tạp bên trong hệ thống con,
+      làm cho hệ thống con dễ sử dụng hơn.
+    </p>
+    <img width="100%" src="/images/facade.webp" alt="facade" />
+
+    <pre>
+      <code>
+  class Discount {
+    calc(value) {
+      return value * 0.9; // Giam 10%
+    }
+  }
+
+
+  class Fees {
+    calc(value) {
+      return value * 1.05; // VAT
+    }
+  }
+
+
+  class Shipping {
+    calc(value) {
+      return value + 5;
+    }
+  }
+
+
+  class ShopFacadePattern {
+    // ES13
+    #discount = new Discount();
+    #fees = new Fees();
+    #shipping = new Shipping();
+
+    calcPriceWithFreeShipping(price) {
+      price = this.#discount.calc(price);
+      price = this.#fees.calc(price);
+      return price;
+    }
+  }
+
+  const shop = new ShopFacadePattern();
+  console.log(shop.calcPriceWithFreeShipping(80000));
+      </code>
+    </pre>
+
+    <button
+      onclick="document.getElementById('value').innerHTML = `<pre><code>${(new ShopFacadePattern()).calcPriceWithFreeShipping(80000)}</code></pre>`"
+    >
+      Run me
+    </button>
+    <div id="value"></div>
+
+    <script>
+      class Discount {
+        calc(value) {
+          return value * 0.9; // Giam 10%
+        }
+      }
+
+      class Fees {
+        calc(value) {
+          return value * 1.05; // VAT
+        }
+      }
+
+      class Shipping {
+        calc(value) {
+          return value + 5;
+        }
+      }
+
+      class ShopFacadePattern {
+        // ES13
+        #discount = new Discount();
+        #fees = new Fees();
+        #shipping = new Shipping();
+
+        // constructor() {
+        //   this.discount = new Discount();
+        //   this.fees = new Fees();
+        //   this.shipping = new Shipping();
+        // }
+
+        calcPriceWithFreeShipping(price) {
+          price = this.#discount.calc(price);
+          price = this.#fees.calc(price);
+          return price;
+        }
+      }
+
+      const shop = new ShopFacadePattern();
+      console.log(shop.calcPriceWithFreeShipping(80000));
+    </script>
   </body>
 </html>
