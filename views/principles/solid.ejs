@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <a href="/"><- Back</a>
+    <h1><%= title %></h1>
+    <img width="100%" src="/images/solid-principle.png" alt="" />
+
+    <!-- S -->
+    <h3>S -Single responsibility principle</h3>
+    <p>
+      - Một class chỉ nên giữ 1 trách nhiệm duy nhất (Chỉ có thể sửa đổi
+      class với 1 lý do duy nhất).
+    </p>
+    <pre>
+        <code>
+    class Order {
+      // Đơn hàng
+      constructor(userId) {
+        this.userId = userId;
+        this.timeOrder = Date.now();
+        this.products = [];
+      }
+    }
+
+
+    class OrderManager {
+      // Class chịu trách nhiệm quản lý đơn hàng
+      constructor() {
+        this.order = null;
+      }
+
+      createOrder(userId) {
+        this.order = new Order(userId);
+        return this.order;
+      }
+
+      addProduct(product) {
+        this.order.products.push(product);
+      }
+
+      getProduct() {
+        return this.order;
+      }
+
+      isValid() {
+        return !!this.order.products.length;
+      }
+
+      sendOrder() {
+        if (!this.isValid()) return 0;
+        this.sendMailOrder = new SendMailOrder();
+        return this.sendMailOrder.sendMail(this.order);
+      }
+    }
+
+
+    class SendMailOrder {
+      sendMail(order) {
+        console.log(
+          "SendMail TO 'http://acsa.com/api/orders' success:::",
+          order
+        );
+        return 1;
+      }
+    }
+
+
+    const orderManager = new OrderManager();
+    orderManager.createOrder("user-101");
+    orderManager.addProduct({
+      id: "product-101",
+      quantity: 2,
+      price: 1000,
+      unit: "USD",
+    });
+    orderManager.addProduct({
+      id: "product-102",
+      quantity: 2,
+      price: 2000,
+      unit: "USD",
+    });
+    // console.log("Order Info::: ", orderManager.getProduct());
+    orderManager.sendOrder();
+        </code>
+    </pre>
+    <button
+      onclick="document.getElementById('value').innerHTML = `<pre><code>${orderManager.sendOrder()}</code></pre>`"
+    >
+      Run me
+    </button>
+    <div id="value"></div>
+    <script>
+      class Order {
+        // Đơn hàng
+        constructor(userId) {
+          this.userId = userId;
+          this.timeOrder = Date.now();
+          this.products = [];
+        }
+      }
+
+      class OrderManager {
+        // Class chịu trách nhiệm quản lý đơn hàng
+        constructor() {
+          this.order = null;
+        }
+
+        createOrder(userId) {
+          this.order = new Order(userId);
+          return this.order;
+        }
+
+        addProduct(product) {
+          this.order.products.push(product);
+        }
+
+        getProduct() {
+          return this.order;
+        }
+
+        isValid() {
+          return !!this.order.products.length;
+        }
+
+        sendOrder() {
+          if (!this.isValid()) return 0;
+          this.sendMailOrder = new SendMailOrder();
+          return this.sendMailOrder.sendMail(this.order);
+        }
+      }
+
+      class SendMailOrder {
+        sendMail(order) {
+          console.log(
+            "SendMail TO 'http://acsa.com/api/orders' success:::",
+            order
+          );
+          return `SendMail TO 'http://acsa.com/api/orders' success::: ${JSON.stringify(
+            order
+          )}`;
+        }
+      }
+
+      const orderManager = new OrderManager();
+      orderManager.createOrder("user-101");
+      orderManager.addProduct({
+        id: "product-101",
+        quantity: 2,
+        price: 1000,
+        unit: "USD",
+      });
+      orderManager.addProduct({
+        id: "product-102",
+        quantity: 2,
+        price: 2000,
+        unit: "USD",
+      });
+      // console.log("Order Info::: ", orderManager.getProduct());
+    </script>
+
+    <!-- O -->
+    <h3>O - Open/closed principle</h3>
+    <p>
+      - Có thể thoải mái mở rộng 1 class, nhưng không được sửa đổi bên
+      trong class đó
+    </p>
+
+    <pre>
+        <code>
+    const postDB = {
+        add: () => {
+          console.log("Add post");
+        },
+        addAsTag: () => {
+          console.log("Add post with tag");
+        },
+    };
+
+
+    class Post {
+        createPost(postMessage) {
+          postDB.add(postMessage);
+        }
+    }
+
+
+    class TagPost extends Post {
+        createPost(postMessage) {
+          // Already check postMessage start with #
+          this.addAsTag(postMessage);
+        }
+    }
+        </code>
+    </pre>
+
+    <script>
+      const postDB = {
+        add: () => {
+          console.log("Add post");
+        },
+        addAsTag: () => {
+          console.log("Add post with tag");
+        },
+        notifyUser: (user) => {
+          console.log("Nofity user: ", user);
+        },
+      };
+
+      class Post {
+        createPost(postMessage) {
+          postDB.add(postMessage);
+        }
+      }
+
+      class TagPost extends Post {
+        createPost(postMessage) {
+          // Already check postMessage start with #
+          this.addAsTag(postMessage);
+        }
+      }
+    </script>
+
+    <!-- L -->
+    <h3>L - Liskov substitution principle</h3>
+    <p>
+      - Trong một chương trình, các object của class con có thể thay thế
+      class cha mà không làm thay đổi tính đúng đắn của chương trình.
+    </p>
+    <h6>Example 1:</h6>
+    <pre>
+        <code>
+    const postDB = {
+        add: () => {
+          console.log("Add post");
+        },
+        addAsTag: () => {
+          console.log("Add post with tag");
+        },
+    };
+
+
+    class Post {
+        createPost(postMessage) {
+          postDB.add(postMessage);
+        }
+    }
+
+
+    class TagPost extends Post {
+        createPost(postMessage) {
+          // Already check postMessage start with #
+          this.addAsTag(postMessage);
+        }
+    }
+
+
+    class MentionPost extends Post {
+        createMentionPost(postMessage) {
+          const user = postMessage.getUser();
+          this.notifyUser(user);
+          super.createPost(postMessage);
+        }
+
+        notifyUser(user) {
+          postDB.notifyUser(user);
+        }
+    }
+        </code>
+    </pre>
+
+    <h6>Example 2:</h6>
+    <pre>
+        <code>
+    // example function to make HTTP requests
+    function makeRequest(url, errorHandler) {
+        fetch(url)
+            .then(response => response.json())
+            .catch(error => errorHandler.handle(error))
+        }
+
+
+    // We can have several functions to handle errors
+    const consoleErrorHandler = function handle(error){
+        console.log(error)
+    }
+
+
+    const externalErrorHandler = function handle(error){
+        sendErrorToExternalService(error)
+    }
+
+
+    makeRequest(url, consoleErrorHandler);
+    makeRequest(url, externalErrorHandler);
+        </code>
+    </pre>
+
+    <script>
+      class MentionPost extends Post {
+        createMentionPost(postMessage) {
+          const user = postMessage.getUser();
+          this.notifyUser(user);
+          super.createPost(postMessage);
+        }
+
+        notifyUser(user) {
+          postDB.notifyUser(user);
+        }
+      }
+    </script>
+
+    <!-- I -->
+    <h3>I - Interface segregation principle</h3>
+    <p>
+      - Thay vì dùng 1 interface lớn, ta nên tách thành nhiều interface
+      nhỏ, với nhiều mục đích cụ thể
+    </p>
+    <pre>
+        <code>
+    interface IPostCreate {
+        createPost();
+    }
+
+    interface IPostRead {
+        readPost();
+    }        
+        </code>
+    </pre>
+    <script>
+      //   interface IPostCreate {
+      //     createPost();
+      //   }
+      //    interface IPostRead {
+      //     readPost();
+      //   }
+    </script>
+
+    <!-- D -->
+    <h3>D - Dependency inversion principle</h3>
+    <p>
+      - Các module cấp cao không nên phụ thuộc vào các modules cấp thấp. Cả
+      2 nên phụ thuộc vào abstraction.
+    </p>
+    <p>
+      - Interface (abstraction) không nên phụ thuộc vào chi tiết, mà ngược
+      lại. ( Các class giao tiếp với nhau thông qua interface, không phải
+      thông qua implementation.)
+    </p>
+    <h6>Example 1:</h6>
+    <pre>
+        <code>
+    class Post {
+        constructor(injectedLogger) {
+          this.logger = injectedLogger;
+        }
+
+
+        createPost(postMessage) {
+          try {
+            postDB.add(postMessage);
+          } catch (e) {
+            this.logger.log(e.toString());
+          }
+        }
+    }
+        </code>
+    </pre>
+
+    <h6>Example 2:</h6>
+    <pre>
+        <code>
+        class MySqlConnection {
+            connect() { /* */ }
+        }
+
+
+        class PostgreSqlConnection {
+            connect() { /* */ }
+        }
+
+
+        class PasswordReminder {
+            constructor(connection) {
+                this.dbConnection = connection
+            }
+        }
+        </code>
+    </pre>
+    <script>
+      class Post {
+        constructor(injectedLogger) {
+          this.logger = injectedLogger;
+        }
+
+        createPost(postMessage) {
+          try {
+            postDB.add(postMessage);
+          } catch (e) {
+            this.logger.log(e.toString());
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

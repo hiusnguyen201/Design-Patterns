@@ -10,27 +10,17 @@ router.get("/", function (req, res, next) {
   res.render("index", { title: "Design Patterns" });
 });
 
-router.get("/patterns/:name", function (req, res, next) {
-  const { name } = req.params;
-  const isValid = fs.existsSync(p + `/patterns/${name}.ejs`);
+router.get("/:folder/:name", function (req, res, next) {
+  const { name, folder } = req.params;
+  const isValid = fs.existsSync(p + `/${folder}/${name}.ejs`);
   if (!isValid) {
     return next(createError(404));
   }
 
-  res.render(`patterns/${name}`, {
-    title: `${name.charAt(0).toUpperCase() + name.slice(1)} Pattern`,
-  });
-});
-
-router.get("/algorithms/:name", function (req, res, next) {
-  const { name } = req.params;
-  const isValid = fs.existsSync(p + `/algorithms/${name}.ejs`);
-  if (!isValid) {
-    return next(createError(404));
-  }
-
-  res.render(`algorithms/${name}`, {
-    title: `${name.charAt(0).toUpperCase() + name.slice(1)} Algorithm`,
+  res.render(`${folder}/${name}`, {
+    title: `${name.charAt(0).toUpperCase() + name.slice(1)} ${
+      folder.charAt(0).toUpperCase() + folder.slice(1, folder.length - 1)
+    }`,
   });
 });
 
