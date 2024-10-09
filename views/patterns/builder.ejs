@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <a href="/"><- Back</a>
+    <h1><%= title %></h1>
+    <pre>
+        <code>
+      class FifaPlayer {
+        constructor(builder) {
+          this.name = builder.name;
+          this.age = builder.age;
+          this.national = builder.national;
+          this.stats = builder.stats;
+        }
+
+        toString() {
+          let player = "";
+          player += `Name: ${this.name}\n`;
+          player += `Age: ${this.age}\n`;
+          player += `National: ${this.national}\n`;
+          player += `Stats: ${JSON.stringify(this.stats)}\n`;
+          return player;
+        }
+      }
+
+      class FifaPlayerBuilder {
+        constructor() {
+          this.name = "";
+          this.age = 0;
+          this.national = "";
+          this.stats = {};
+        }
+
+        setName(name) {
+          this.name = name;
+          return this;
+        }
+
+        setAge(age) {
+          this.age = age;
+          return this;
+        }
+
+        setNational(national) {
+          this.national = national;
+          return this;
+        }
+
+        setStats(stats) {
+          this.stats = stats;
+          return this;
+        }
+
+        build() {
+          return new FifaPlayer(this);
+        }
+      }
+
+      const builder = new FifaPlayerBuilder();
+      const cr7 = builder
+        .setName("CR7")
+        .setAge(44)
+        .setNational("EU")
+        .setStats({ score: 99, minutesPlayed: 10000 })
+        .build();
+
+      console.log(cr7.toString());
+        </code>
+    </pre>
+    <script>
+      class FifaPlayer {
+        constructor(builder) {
+          this.name = builder.name;
+          this.age = builder.age;
+          this.national = builder.national;
+          this.stats = builder.stats;
+        }
+
+        toString() {
+          let player = "";
+          player += `Name: ${this.name}\n`;
+          player += `Age: ${this.age}\n`;
+          player += `National: ${this.national}\n`;
+          player += `Stats: ${JSON.stringify(this.stats)}\n`;
+          return player;
+        }
+      }
+
+      class FifaPlayerBuilder {
+        constructor() {
+          this.name = "";
+          this.age = 0;
+          this.national = "";
+          this.stats = {};
+        }
+
+        setName(name) {
+          this.name = name;
+          return this;
+        }
+
+        setAge(age) {
+          this.age = age;
+          return this;
+        }
+
+        setNational(national) {
+          this.national = national;
+          return this;
+        }
+
+        setStats(stats) {
+          this.stats = stats;
+          return this;
+        }
+
+        build() {
+          return new FifaPlayer(this);
+        }
+      }
+
+      const builder = new FifaPlayerBuilder();
+      const cr7 = builder
+        .setName("CR7")
+        .setAge(44)
+        .setNational("EU")
+        .setStats({ score: 99, minutesPlayed: 10000 })
+        .build();
+
+      console.log(cr7.toString());
+    </script>
+  </body>
+</html>

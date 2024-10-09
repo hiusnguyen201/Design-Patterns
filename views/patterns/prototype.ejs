@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <a href="/"><- Back</a>
+    <h1><%= title %></h1>
+    <pre>
+      <code>
+      class FifaPlayer {
+        constructor(name, team, goals) {
+          this.name = name;
+          this.team = team;
+          this.goals = goals;
+        }
+
+        score() {
+          this.goals++;
+        }
+
+        clone() {
+          return new FifaPlayer(this.name, this.team, this.goals);
+        }
+      }
+
+
+      FifaPlayer.prototype.stats = {
+        minutesPlayed: 0,
+      };
+
+
+      // Create prototype
+      const prototype = new FifaPlayer("CR7", "Al sarrio", 0);
+
+
+      // Create cr7
+      const cr7 = prototype.clone();
+      cr7.stats.minutesPlayed = 1000;
+
+
+      // Create m10
+      const m10 = prototype.clone();
+      m10.name = "Messi";
+      m10.team = "Bacerona";
+
+
+      cr7.goals();
+      m10.goals();
+      console.log(cr7.stats.minutesPlayed); // 1000
+      // console.log(m10.stats.minutesPlayed); // 1000
+      // Must use deep copy to change, because stats.minutesPlayed is reference type
+      </code>
+    </pre>
+    <script>
+      class FifaPlayer {
+        constructor(name, team, goals) {
+          this.name = name;
+          this.team = team;
+          this.goals = goals;
+        }
+
+        score() {
+          this.goals++;
+        }
+
+        clone() {
+          return new FifaPlayer(this.name, this.team, this.goals);
+        }
+      }
+
+      FifaPlayer.prototype.stats = {
+        minutesPlayed: 0,
+      };
+
+      // Create prototype
+      const prototype = new FifaPlayer("CR7", "Al sarrio", 0);
+
+      // Create cr7
+      const cr7 = prototype.clone();
+      cr7.stats.minutesPlayed = 1000;
+
+      // Create m10
+      const m10 = prototype.clone();
+      m10.name = "Messi";
+      m10.team = "Bacerona";
+
+      cr7.score();
+      m10.score();
+      console.log(cr7.stats.minutesPlayed); // 1000
+      console.log(m10.stats.minutesPlayed); // 1000
+
+      // Must use deep copy to change, because stats.minutesPlayed is reference type
+      const statsDeepCopy = JSON.parse(JSON.stringify(m10.stats));
+      statsDeepCopy.minutesPlayed = 10000;
+      console.log(cr7.stats.minutesPlayed);
+      console.log(statsDeepCopy.minutesPlayed);
+    </script>
+  </body>
+</html>
